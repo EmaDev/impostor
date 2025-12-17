@@ -9,7 +9,7 @@ import PassDevice from '@/components/game/PassDevice';
 import DebateScreen from '@/components/game/DebateScreen';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { PartyPopper } from 'lucide-react';
+import { PartyPopper, XSquare } from 'lucide-react';
 
 type GameState = 'loading' | 'turn' | 'pass' | 'debate' | 'end';
 
@@ -75,6 +75,10 @@ export default function GameClient() {
     }
   };
 
+  const handleEndGame = () => {
+    setGameState('end');
+  };
+
   const currentPlayer = useMemo(() => settings?.players[currentPlayerIndex], [settings, currentPlayerIndex]);
   const nextPlayer = useMemo(() => settings?.players[currentPlayerIndex + 1], [settings, currentPlayerIndex]);
 
@@ -103,6 +107,12 @@ export default function GameClient() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+      <div className="absolute top-4 right-4">
+        <Button variant="destructive" size="sm" onClick={handleEndGame}>
+          <XSquare className="mr-2 h-4 w-4" />
+          Finalizar Juego
+        </Button>
+      </div>
       {gameState === 'turn' && currentPlayer && (
         <PlayerTurn
           player={currentPlayer}
