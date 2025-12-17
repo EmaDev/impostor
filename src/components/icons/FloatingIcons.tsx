@@ -1,3 +1,5 @@
+"use client";
+
 import { MortarboardIcon } from './Mortarboard';
 import { DiplomaIcon } from './Diploma';
 
