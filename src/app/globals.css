@@ -68,3 +68,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .btn-confetti {
+    background-color: hsl(var(--secondary));
+    background-image:
+      radial-gradient(circle at 15% 15%, hsl(var(--primary)) 2px, transparent 0),
+      radial-gradient(circle at 85% 15%, hsl(var(--accent)) 1px, transparent 0),
+      radial-gradient(circle at 10% 80%, hsl(var(--primary) / 0.5) 2px, transparent 0),
+      radial-gradient(circle at 90% 85%, #60a5fa 2px, transparent 0),
+      radial-gradient(circle at 50% 50%, #facc15 1px, transparent 0);
+    background-size: 40px 40px;
+    color: hsl(var(--secondary-foreground));
+    font-weight: bold;
+    text-shadow: 0 0 5px hsl(var(--background) / 0.7);
+  }
+}

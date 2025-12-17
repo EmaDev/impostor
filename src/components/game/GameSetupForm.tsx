@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { categories, type Category } from '@/lib/game-data';
 import { useToast } from '@/hooks/use-toast';
 import { UserPlus, X, Users, Repeat, ThumbsUp, Play, Star } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const categoryKeys = Object.keys(categories) as Category[];
 
@@ -143,19 +144,22 @@ export default function GameSetupForm() {
 
         <div className="space-y-2">
           <Label>Categorías</Label>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
-            {categoryKeys.map(cat => (
-              <Button
-                key={cat}
-                variant={selectedCategory === cat ? 'default' : 'outline'}
-                onClick={() => setSelectedCategory(cat)}
-                className="w-full justify-center"
-              >
-                {cat === 'Conocidos de Lucia' && <Star className="mr-2 h-4 w-4 text-yellow-400" />}
-                {selectedCategory === cat && <ThumbsUp className="mr-2 h-4 w-4" />}
-                {cat}
-              </Button>
-            ))}
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {categoryKeys.map(cat => {
+              const isSpecialCategory = cat === 'Conocidos de Lucia';
+              return (
+                <Button
+                  key={cat}
+                  variant={selectedCategory === cat ? 'default' : 'outline'}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={cn("w-full justify-center", isSpecialCategory && 'btn-confetti')}
+                >
+                  {isSpecialCategory && <Star className="mr-2 h-4 w-4" />}
+                  {selectedCategory === cat && !isSpecialCategory && <ThumbsUp className="mr-2 h-4 w-4" />}
+                  {cat}
+                </Button>
+              );
+            })}
           </div>
         </div>
 
