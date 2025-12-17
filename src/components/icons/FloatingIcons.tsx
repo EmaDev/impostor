@@ -7,7 +7,7 @@ import enhorbuena from "../../lib/icons/enhorabuena.png"
 import diploma from "../../lib/icons/diploma-de-graduacion.png"
 import graduado from "../../lib/icons/graduado.png"
 import graduacion from "../../lib/icons/graduacion.png"
-import unlam from "../../lib/icons/unlam.png"
+import unlam from "../../lib/icons/unlamold.png"
 import diploma2 from "../../lib/icons/soltero.png"
 
 export function FloatingIcons() {

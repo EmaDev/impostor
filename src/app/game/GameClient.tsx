@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { type Category } from '@/lib/game-data';
+import { categories, type Category } from '@/lib/game-data';
 import { assignRoles, getSecretWord } from '@/lib/game';
 import PlayerTurn from '@/components/game/PlayerTurn';
 import PassDevice from '@/components/game/PassDevice';
@@ -33,6 +33,7 @@ export default function GameClient() {
   const [currentRound, setCurrentRound] = useState(1);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [assignments, setAssignments] = useState<Map<string, string>>(new Map());
+  const [availableWords, setAvailableWords] = useState<string[]>([]);
 
   useEffect(() => {
     try {
@@ -46,20 +47,27 @@ export default function GameClient() {
         return;
       }
       setSettings({ players, impostors, rounds, category });
+      setAvailableWords(categories[category] || []);
     } catch (error) {
       router.replace('/');
     }
   }, [searchParams, router]);
 
   useEffect(() => {
-    if (settings) {
-      const word = getSecretWord(settings.category);
-      const newAssignments = assignRoles(settings.players, settings.impostors, word);
-      setAssignments(newAssignments);
-      setGameState('turn');
-      setCurrentPlayerIndex(0);
+    if (settings && availableWords.length > 0) {
+      const word = getSecretWord(availableWords);
+      if (word) {
+        const newAssignments = assignRoles(settings.players, settings.impostors, word);
+        setAssignments(newAssignments);
+        setAvailableWords(prev => prev.filter(w => w !== word));
+        setGameState('turn');
+        setCurrentPlayerIndex(0);
+      } else {
+        // No more words, end game or handle appropriately
+        setGameState('end');
+      }
     }
-  }, [currentRound, settings]);
+  }, [currentRound, settings, availableWords.length]); // availableWords.length to trigger when list is initialized
 
   const handleNext = () => {
     if (!settings) return;

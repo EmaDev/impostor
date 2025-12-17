@@ -15,7 +15,10 @@ export function assignRoles(players: string[], impostorCount: number, word: stri
   return assignments;
 }
 
-export function getSecretWord(category: Category): string {
-  const words = categories[category];
-  return words[Math.floor(Math.random() * words.length)];
+export function getSecretWord(availableWords: string[]): string | null {
+  if (availableWords.length === 0) {
+    return null;
+  }
+  const word = availableWords[Math.floor(Math.random() * availableWords.length)];
+  return word;
 }
