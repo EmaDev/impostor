@@ -143,7 +143,7 @@ export default function GameSetupForm() {
 
         <div className="space-y-2">
           <Label>Categorías</Label>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
             {categoryKeys.map(cat => (
               <Button
                 key={cat}
@@ -151,8 +151,8 @@ export default function GameSetupForm() {
                 onClick={() => setSelectedCategory(cat)}
                 className="w-full justify-center"
               >
-                {cat === 'Conocidos de Lucia' && <Star className="mr-2 text-yellow-400" />}
-                {selectedCategory === cat && <ThumbsUp className="mr-2" />}
+                {cat === 'Conocidos de Lucia' && <Star className="mr-2 h-4 w-4 text-yellow-400" />}
+                {selectedCategory === cat && <ThumbsUp className="mr-2 h-4 w-4" />}
                 {cat}
               </Button>
             ))}
