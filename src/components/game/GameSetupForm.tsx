@@ -82,16 +82,6 @@ export default function GameSetupForm() {
     params.set('category', selectedCategory);
     router.push(`/game?${params.toString()}`);
   };
-  
-  const getCategoryVariant = (category: Category) => {
-    if (selectedCategory === category) {
-      return 'default';
-    }
-    if (category === 'Conocidos de Lucia') {
-      return 'secondary'; 
-    }
-    return 'outline';
-  };
 
   return (
     <Card className="z-10 mt-8 w-full max-w-lg rounded-2xl bg-card/80 shadow-2xl backdrop-blur-sm">
@@ -157,12 +147,12 @@ export default function GameSetupForm() {
             {categoryKeys.map(cat => (
               <Button
                 key={cat}
-                variant={getCategoryVariant(cat)}
+                variant={selectedCategory === cat ? 'default' : 'outline'}
                 onClick={() => setSelectedCategory(cat)}
                 className="w-full justify-center"
               >
                 {cat === 'Conocidos de Lucia' && <Star className="mr-2 text-yellow-400" />}
-                {selectedCategory === cat && cat !== 'Conocidos de Lucia' && <ThumbsUp className="mr-2" />}
+                {selectedCategory === cat && <ThumbsUp className="mr-2" />}
                 {cat}
               </Button>
             ))}
