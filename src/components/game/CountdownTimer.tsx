@@ -12,17 +12,19 @@ export default function CountdownTimer({ initialMinutes }: CountdownTimerProps) 
   useEffect(() => {
     if (seconds <= 0) return;
     const interval = setInterval(() => {
-      setSeconds(s => s - 1);
+      setSeconds(s => s > 0 ? s - 1 : 0);
     }, 1000);
     return () => clearInterval(interval);
-  }, [seconds]);
+  }, []);
 
   const displayMinutes = Math.floor(seconds / 60);
   const displaySeconds = seconds % 60;
 
+  const timeColorClass = seconds <= 60 ? 'text-destructive' : 'text-primary';
+
   return (
     <div className="rounded-lg bg-primary/10 p-4">
-      <p className="font-mono text-6xl font-bold text-primary">
+      <p className={`font-mono text-6xl font-bold transition-colors ${timeColorClass}`}>
         {String(displayMinutes).padStart(2, '0')}:{String(displaySeconds).padStart(2, '0')}
       </p>
     </div>
