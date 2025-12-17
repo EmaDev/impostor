@@ -1,9 +1,8 @@
 "use client";
 
-import { MortarboardIcon } from './Mortarboard';
-import { DiplomaIcon } from './Diploma';
+import Image from 'next/image';
 
-const iconStyles = 'absolute text-primary opacity-20';
+const iconStyles = 'absolute opacity-20';
 
 export function FloatingIcons() {
   return (
@@ -20,12 +19,24 @@ export function FloatingIcons() {
         .float-4 { animation: float 8s ease-in-out infinite 1.5s; }
       `}</style>
 
-      <MortarboardIcon className={`${iconStyles} float-1 w-16 h-16 top-[10%] left-[5%]`} />
-      <DiplomaIcon className={`${iconStyles} float-2 w-12 h-12 top-[20%] right-[10%]`} />
-      <MortarboardIcon className={`${iconStyles} float-3 w-20 h-20 bottom-[15%] right-[15%]`} />
-      <DiplomaIcon className={`${iconStyles} float-4 w-14 h-14 bottom-[25%] left-[12%]`} />
-      <MortarboardIcon className={`${iconStyles} float-2 w-10 h-10 top-[50%] left-[20%]`} />
-       <DiplomaIcon className={`${iconStyles} float-1 w-16 h-16 top-[60%] right-[8%]`} />
+      <div className={`${iconStyles} float-1 w-16 h-16 top-[10%] left-[5%]`}>
+          <Image src="/icons/birrete.png" alt="" width={64} height={64} />
+      </div>
+      <div className={`${iconStyles} float-2 w-12 h-12 top-[20%] right-[10%]`}>
+          <Image src="/icons/diploma.png" alt="" width={48} height={48} />
+      </div>
+      <div className={`${iconStyles} float-3 w-20 h-20 bottom-[15%] right-[15%]`}>
+          <Image src="/icons/birrete.png" alt="" width={80} height={80} />
+      </div>
+      <div className={`${iconStyles} float-4 w-14 h-14 bottom-[25%] left-[12%]`}>
+          <Image src="/icons/diploma.png" alt="" width={56} height={56} />
+      </div>
+      <div className={`${iconStyles} float-2 w-10 h-10 top-[50%] left-[20%]`}>
+          <Image src="/icons/birrete.png" alt="" width={40} height={40} />
+      </div>
+       <div className={`${iconStyles} float-1 w-16 h-16 top-[60%] right-[8%]`}>
+          <Image src="/icons/diploma.png" alt="" width={64} height={64} />
+       </div>
     </div>
   );
 }
