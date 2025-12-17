@@ -6,7 +6,7 @@ const iconStyles = 'absolute opacity-20';
 
 export function FloatingIcons() {
   return (
-    <div className="absolute top-0 left-0 w-full h-full -z-0 pointer-events-none">
+    <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
       <style jsx>{`
         @keyframes float {
           0% { transform: translateY(0px) rotate(0deg); }

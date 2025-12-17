@@ -23,7 +23,7 @@ export default function Home() {
           LUCIA
         </h2>
       </div>
-      <div className="z-10 mt-12 flex justify-center">
+      <div className="relative z-10 mt-12 flex justify-center">
         <Link href="/create-room" passHref>
           <Button size="lg" className="w-full text-xl font-bold" variant="secondary">
             <FilePlus className="mr-3" />
