@@ -3,6 +3,7 @@ import { Confetti } from '@/components/Confetti';
 import { FloatingIcons } from '@/components/icons/FloatingIcons';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { FilePlus } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -22,15 +23,11 @@ export default function Home() {
           LUCIA
         </h2>
       </div>
-      <div className="z-10 mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+      <div className="z-10 mt-12 flex justify-center">
         <Link href="/create-room" passHref>
-          <Button size="lg" className="w-full text-lg font-bold" variant="secondary">
+          <Button size="lg" className="w-full text-xl font-bold" variant="secondary">
+            <FilePlus className="mr-3" />
             Crear Sala
-          </Button>
-        </Link>
-        <Link href="/join-room" passHref>
-           <Button size="lg" className="w-full text-lg font-bold">
-            Unirse a Sala
           </Button>
         </Link>
       </div>
