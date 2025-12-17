@@ -9,7 +9,7 @@ import PassDevice from '@/components/game/PassDevice';
 import DebateScreen from '@/components/game/DebateScreen';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { PartyPopper, XSquare } from 'lucide-react';
+import { PartyPopper, XSquare, RotateCcw } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -54,7 +54,7 @@ export default function GameClient() {
   }, [searchParams, router]);
 
   useEffect(() => {
-    if (settings && availableWords.length > 0) {
+    if (gameState === 'loading' && settings && availableWords.length > 0) {
       const word = getSecretWord(availableWords);
       if (word) {
         const newAssignments = assignRoles(settings.players, settings.impostors, word);
@@ -63,11 +63,13 @@ export default function GameClient() {
         setGameState('turn');
         setCurrentPlayerIndex(0);
       } else {
-        // No more words, end game or handle appropriately
         setGameState('end');
       }
+    } else if (gameState === 'loading' && settings && availableWords.length === 0) {
+        // All words used up, end the game
+        setGameState('end');
     }
-  }, [currentRound, settings, availableWords.length]); // availableWords.length to trigger when list is initialized
+  }, [gameState, settings, availableWords]);
 
   const handleNext = () => {
     if (!settings) return;
@@ -97,6 +99,18 @@ export default function GameClient() {
   const handleEndGame = () => {
     setGameState('end');
   };
+  
+  const handlePlayAgain = () => {
+    if (!settings) return;
+    // Reset round-specific state
+    setCurrentRound(1);
+    setCurrentPlayerIndex(0);
+    setAssignments(new Map());
+    // Refill words for the selected category
+    setAvailableWords(categories[settings.category] || []);
+    // Start the game loading process
+    setGameState('loading');
+  };
 
   const currentPlayer = useMemo(() => settings?.players[currentPlayerIndex], [settings, currentPlayerIndex]);
   const nextPlayer = useMemo(() => settings?.players[currentPlayerIndex + 1], [settings, currentPlayerIndex]);
@@ -117,7 +131,15 @@ export default function GameClient() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-lg">¡Gracias por jugar!</p>
-            <Button onClick={() => router.push('/')} className="w-full">Volver al inicio</Button>
+            <div className="flex flex-col gap-2">
+              <Button onClick={handlePlayAgain} className="w-full">
+                <RotateCcw className="mr-2 h-4 w-4"/>
+                Jugar de Nuevo
+              </Button>
+              <Button onClick={() => router.push('/create-room')} className="w-full" variant="secondary">
+                Volver al inicio
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </main>
