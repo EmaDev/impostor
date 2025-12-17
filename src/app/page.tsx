@@ -3,7 +3,56 @@ import { Confetti } from '@/components/Confetti';
 import { FloatingIcons } from '@/components/icons/FloatingIcons';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { FilePlus } from 'lucide-react';
+import { FilePlus, BookOpen } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogDescription,
+} from "@/components/ui/dialog";
+
+function GameRules() {
+  return (
+    <DialogContent className="max-w-md">
+      <DialogHeader>
+        <DialogTitle className="text-2xl font-bold">Reglas del Juego</DialogTitle>
+        <DialogDescription>
+          ¡Descubre al impostor antes de que sea tarde!
+        </DialogDescription>
+      </DialogHeader>
+      <div className="mt-4 space-y-4 text-sm text-foreground">
+        <div>
+          <h3 className="font-bold">1. Objetivo del Juego:</h3>
+          <p>
+            Los jugadores (Ciudadanos) deben identificar y votar para eliminar a los Impostores. Los Impostores ganan si no son descubiertos.
+          </p>
+        </div>
+        <div>
+          <h3 className="font-bold">2. Cómo Jugar:</h3>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Al comenzar, cada jugador recibe un rol en secreto: puede ser un "Ciudadano" (con una palabra secreta) o un "Impostor".</li>
+            <li>Por turnos, cada jugador dice una palabra o frase relacionada con la palabra secreta.</li>
+            <li>El Impostor no conoce la palabra, así que debe improvisar para no ser descubierto.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="font-bold">3. Debate y Votación:</h3>
+          <p>
+            Después de que todos hayan hablado, se abre un tiempo de debate para discutir quién podría ser el impostor. Al final, todos votan para eliminar a un jugador.
+          </p>
+        </div>
+         <div>
+          <h3 className="font-bold">4. Fin de la Ronda:</h3>
+          <p>
+            La ronda termina cuando se vota a un jugador. ¡Se revelará si era o no el impostor! Se juegan la cantidad de rondas configuradas al inicio.
+          </p>
+        </div>
+      </div>
+    </DialogContent>
+  )
+}
 
 export default function Home() {
   return (
@@ -23,13 +72,22 @@ export default function Home() {
           LUCIA
         </h2>
       </div>
-      <div className="relative z-10 mt-12 flex justify-center">
+      <div className="relative z-10 mt-12 flex flex-col sm:flex-row justify-center gap-4">
         <Link href="/create-room" passHref>
-          <Button size="lg" className="w-full text-xl font-bold" variant="secondary">
+          <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="secondary">
             <FilePlus className="mr-3" />
             Crear Sala
           </Button>
         </Link>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="outline">
+              <BookOpen className="mr-3" />
+              Ver Reglas
+            </Button>
+          </DialogTrigger>
+          <GameRules />
+        </Dialog>
       </div>
     </main>
   );
