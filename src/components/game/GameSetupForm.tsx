@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,12 +15,40 @@ const categoryKeys = Object.keys(categories) as Category[];
 
 export default function GameSetupForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
+  
   const [players, setPlayers] = useState<string[]>([]);
   const [playerName, setPlayerName] = useState('');
   const [impostorCount, setImpostorCount] = useState('1');
   const [rounds, setRounds] = useState('3');
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+
+  useEffect(() => {
+    try {
+      const playersParam = searchParams.get('players');
+      if (playersParam) {
+        const preloadedPlayers = JSON.parse(playersParam);
+        if (Array.isArray(preloadedPlayers)) {
+          setPlayers(preloadedPlayers);
+        }
+      }
+
+      const impostorsParam = searchParams.get('impostors');
+      if (impostorsParam) setImpostorCount(impostorsParam);
+      
+      const roundsParam = searchParams.get('rounds');
+      if (roundsParam) setRounds(roundsParam);
+
+      const categoryParam = searchParams.get('category') as Category;
+      if (categoryParam && categoryKeys.includes(categoryParam)) {
+        setSelectedCategory(categoryParam);
+      }
+    } catch (e) {
+      console.error("Failed to parse game settings from URL", e);
+      // Silently fail, user can just re-enter settings
+    }
+  }, [searchParams]);
 
   const addPlayer = () => {
     if (playerName.trim() && !players.includes(playerName.trim())) {

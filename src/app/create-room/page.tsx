@@ -11,7 +11,7 @@ export default function CreateRoomPage() {
                 Crear Sala
             </h1>
         </div>
-        <Suspense>
+        <Suspense fallback={<div className="z-10 text-center">Cargando formulario...</div>}>
             <GameSetupForm />
         </Suspense>
     </main>

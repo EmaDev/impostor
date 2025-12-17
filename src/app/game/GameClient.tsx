@@ -102,14 +102,12 @@ export default function GameClient() {
   
   const handlePlayAgain = () => {
     if (!settings) return;
-    // Reset round-specific state
-    setCurrentRound(1);
-    setCurrentPlayerIndex(0);
-    setAssignments(new Map());
-    // Refill words for the selected category
-    setAvailableWords(categories[settings.category] || []);
-    // Start the game loading process
-    setGameState('loading');
+    const params = new URLSearchParams();
+    params.set('players', JSON.stringify(settings.players));
+    params.set('impostors', String(settings.impostors));
+    params.set('rounds', String(settings.rounds));
+    params.set('category', settings.category);
+    router.push(`/create-room?${params.toString()}`);
   };
 
   const currentPlayer = useMemo(() => settings?.players[currentPlayerIndex], [settings, currentPlayerIndex]);
@@ -136,7 +134,7 @@ export default function GameClient() {
                 <RotateCcw className="mr-2 h-4 w-4"/>
                 Jugar de Nuevo
               </Button>
-              <Button onClick={() => router.push('/create-room')} className="w-full" variant="secondary">
+              <Button onClick={() => router.push('/')} className="w-full" variant="secondary">
                 Volver al inicio
               </Button>
             </div>
