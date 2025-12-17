@@ -71,8 +71,9 @@ export default function GameSetupForm() {
               onChange={(e) => setPlayerName(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
             />
-            <Button onClick={addPlayer} size="icon" aria-label="Agregar jugador">
+            <Button onClick={addPlayer} aria-label="Agregar jugador">
               <UserPlus />
+              Agregar
             </Button>
           </div>
           <ul className="mt-2 space-y-2">
