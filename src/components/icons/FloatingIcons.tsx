@@ -2,7 +2,13 @@
 
 import Image from 'next/image';
 
-const iconStyles = 'absolute opacity-20';
+const iconStyles = 'absolute';
+import enhorbuena from "../../lib/icons/enhorabuena.png"
+import diploma from "../../lib/icons/diploma-de-graduacion.png"
+import graduado from "../../lib/icons/graduado.png"
+import graduacion from "../../lib/icons/graduacion.png"
+import unlam from "../../lib/icons/unlam.png"
+import diploma2 from "../../lib/icons/soltero.png"
 
 export function FloatingIcons() {
   return (
@@ -20,22 +26,22 @@ export function FloatingIcons() {
       `}</style>
 
       <div className={`${iconStyles} float-1 w-16 h-16 top-[10%] left-[5%]`}>
-          <Image src="/icons/birrete.png" alt="" width={64} height={64} />
+          <Image src={enhorbuena} alt="" width={64} height={64} />
       </div>
       <div className={`${iconStyles} float-2 w-12 h-12 top-[20%] right-[10%]`}>
-          <Image src="/icons/diploma.png" alt="" width={48} height={48} />
+          <Image src={diploma} alt="" width={48} height={48} />
       </div>
       <div className={`${iconStyles} float-3 w-20 h-20 bottom-[15%] right-[15%]`}>
-          <Image src="/icons/birrete.png" alt="" width={80} height={80} />
+          <Image src={graduacion} alt="" width={80} height={80} />
       </div>
       <div className={`${iconStyles} float-4 w-14 h-14 bottom-[25%] left-[12%]`}>
-          <Image src="/icons/diploma.png" alt="" width={56} height={56} />
+          <Image src={graduado} alt="" width={56} height={56} />
       </div>
-      <div className={`${iconStyles} float-2 w-10 h-10 top-[50%] left-[20%]`}>
-          <Image src="/icons/birrete.png" alt="" width={40} height={40} />
+      <div className={`${iconStyles} float-2 w-36 h-36 top-[50%] left-[20%]`}>
+          <Image src={unlam} alt="" width={40} height={40} />
       </div>
        <div className={`${iconStyles} float-1 w-16 h-16 top-[60%] right-[8%]`}>
-          <Image src="/icons/diploma.png" alt="" width={64} height={64} />
+          <Image src={diploma2} alt="" width={64} height={64} />
        </div>
     </div>
   );
