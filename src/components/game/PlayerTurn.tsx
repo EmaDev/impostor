@@ -4,10 +4,11 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { RoleCard } from '@/components/game/RoleCard';
 import { ArrowRight } from 'lucide-react';
+import { type SecretWord } from '@/lib/game-data';
 
 interface PlayerTurnProps {
   player: string;
-  role: string;
+  role: SecretWord | 'Impostor';
   onNext: () => void;
 }
 

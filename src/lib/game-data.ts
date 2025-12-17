@@ -1,3 +1,8 @@
+export type KnownPerson = {
+  name: string;
+  avatar: string;
+};
+
 export const categories = {
   "Famosos Argentina": [
     "Mirtha Legrand", "Susana Giménez", "Marcelo Tinelli", "Ricardo Darín", "Lionel Messi",
@@ -115,6 +120,17 @@ export const categories = {
     "Bariloche", "Posadas", "Resistencia", "Neuquén", "San Juan", 
     "San Salvador de Jujuy", "Santa Fe", "Corrientes", "Bahía Blanca", "La Plata"
   ],
+  "Conocidos de Lucia": [
+    { "name": "Facu", "avatar": "/icons/graduado.png" },
+    { "name": "Santi", "avatar": "/icons/diploma-de-graduacion.png" },
+    { "name": "Agus", "avatar": "/icons/enhorabuena.png" },
+    { "name": "Juan", "avatar": "/icons/graduacion.png" },
+    { "name": "Mica", "avatar": "/icons/soltero.png" },
+    { "name": "UNLAM", "avatar": "/icons/unlamold.png" }
+  ]
 };
+
+export type SecretWord = string | KnownPerson;
+export type CategoryContent = string[] | KnownPerson[];
 
 export type Category = keyof typeof categories;

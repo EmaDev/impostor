@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { categories, type Category } from '@/lib/game-data';
+import { categories, type Category, type SecretWord, type CategoryContent } from '@/lib/game-data';
 import { assignRoles, getSecretWord } from '@/lib/game';
 import PlayerTurn from '@/components/game/PlayerTurn';
 import PassDevice from '@/components/game/PassDevice';
@@ -32,8 +32,8 @@ export default function GameClient() {
   const [settings, setSettings] = useState<{ players: string[]; impostors: number; rounds: number; category: Category } | null>(null);
   const [currentRound, setCurrentRound] = useState(1);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const [assignments, setAssignments] = useState<Map<string, string>>(new Map());
-  const [availableWords, setAvailableWords] = useState<string[]>([]);
+  const [assignments, setAssignments] = useState<Map<string, SecretWord | 'Impostor'>>(new Map());
+  const [availableWords, setAvailableWords] = useState<CategoryContent>([]);
 
   useEffect(() => {
     try {
@@ -59,7 +59,7 @@ export default function GameClient() {
       if (word) {
         const newAssignments = assignRoles(settings.players, settings.impostors, word);
         setAssignments(newAssignments);
-        setAvailableWords(prev => prev.filter(w => w !== word));
+        setAvailableWords(prev => prev.filter(w => JSON.stringify(w) !== JSON.stringify(word)));
         setGameState('turn');
         setCurrentPlayerIndex(0);
       } else {
@@ -171,7 +171,7 @@ export default function GameClient() {
       {gameState === 'turn' && currentPlayer && (
         <PlayerTurn
           player={currentPlayer}
-          role={assignments.get(currentPlayer) || ''}
+          role={assignments.get(currentPlayer) || 'Impostor'}
           onNext={handleNext}
         />
       )}

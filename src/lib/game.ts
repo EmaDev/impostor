@@ -1,7 +1,7 @@
-import { categories, type Category } from './game-data';
+import { type SecretWord, type CategoryContent } from './game-data';
 
-export function assignRoles(players: string[], impostorCount: number, word: string): Map<string, string> {
-  const assignments = new Map<string, string>();
+export function assignRoles(players: string[], impostorCount: number, word: SecretWord): Map<string, SecretWord | 'Impostor'> {
+  const assignments = new Map<string, SecretWord | 'Impostor'>();
   const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
 
   for (let i = 0; i < shuffledPlayers.length; i++) {
@@ -15,10 +15,10 @@ export function assignRoles(players: string[], impostorCount: number, word: stri
   return assignments;
 }
 
-export function getSecretWord(availableWords: string[]): string | null {
+export function getSecretWord(availableWords: CategoryContent): SecretWord | null {
   if (availableWords.length === 0) {
     return null;
   }
-  const word = availableWords[Math.floor(Math.random() * availableWords.length)];
-  return word;
+  const item = availableWords[Math.floor(Math.random() * availableWords.length)];
+  return item;
 }
