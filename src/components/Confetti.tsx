@@ -10,7 +10,7 @@ export function Confetti() {
     if (isFired.current) return;
     isFired.current = true;
     
-    const duration = 3 * 1000;
+    const duration = 5 * 1000;
     const animationEnd = Date.now() + duration;
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
@@ -26,8 +26,10 @@ export function Confetti() {
       }
 
       const particleCount = 50 * (timeLeft / duration);
-      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#D8B4FE', '#FDE68A', '#FBBF24', '#C084FC'] });
-      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#D8B4FE', '#FDE68A', '#FBBF24', '#C084FC'] });
+      // New color palette
+      const colors = ['#fde68a', '#d8b4fe', '#a78bfa', '#60a5fa', '#facc15'];
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors });
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors });
     }, 250);
 
     return () => clearInterval(interval);
