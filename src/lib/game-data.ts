@@ -1,6 +1,6 @@
 export type KnownPerson = {
   name: string;
-  avatar: string;
+  avatar: string; // This will now be the filename, e.g., "dylan_rodriguez.png"
 };
 
 export const categories = {
@@ -121,14 +121,14 @@ export const categories = {
     "San Salvador de Jujuy", "Santa Fe", "Corrientes", "Bahía Blanca", "La Plata"
   ],
   "Conocidos de Lucia": [
-    { "name": "Dylan Rodriguez", "avatar": "/images/dylan_rodriguez.png" },
-    { "name": "Eze Raggio", "avatar": "/images/eze_raggio.png" },
-    { "name": "Javi Alberio", "avatar": "/images/javi_alberio.png" },
-    { "name": "Lucas Vasco", "avatar": "/images/lucas_vasco.png" },
-    { "name": "Marcos Corona", "avatar": "/images/marcos_corona.png" },
-    { "name": "Mauro Fredes", "avatar": "/images/mauro_fredes.png" },
-    { "name": "Nico Marenzi", "avatar": "/images/nico_marenzi.png" },
-    { "name": "Seba Gauto", "avatar": "/images/seba_gauto.png" }
+    { "name": "Dylan Rodriguez", "avatar": "dylan_rodriguez.png" },
+    { "name": "Eze Raggio", "avatar": "eze_raggio.png" },
+    { "name": "Javi Alberio", "avatar": "javi_alberio.png" },
+    { "name": "Lucas Vasco", "avatar": "lucas_vasco.png" },
+    { "name": "Marcos Corona", "avatar": "marcos_corona.png" },
+    { "name": "Mauro Fredes", "avatar": "mauro_fredes.png" },
+    { "name": "Nico Marenzi", "avatar": "nico_marenzi.png" },
+    { "name": "Seba Gauto", "avatar": "seba_gauto.png" }
   ]
 };
 
