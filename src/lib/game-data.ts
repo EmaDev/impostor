@@ -121,12 +121,14 @@ export const categories = {
     "San Salvador de Jujuy", "Santa Fe", "Corrientes", "Bahía Blanca", "La Plata"
   ],
   "Conocidos de Lucia": [
-    { "name": "Facu", "avatar": "/icons/graduado.png" },
-    { "name": "Santi", "avatar": "/icons/diploma-de-graduacion.png" },
-    { "name": "Agus", "avatar": "/icons/enhorabuena.png" },
-    { "name": "Juan", "avatar": "/icons/graduacion.png" },
-    { "name": "Mica", "avatar": "/icons/soltero.png" },
-    { "name": "UNLAM", "avatar": "/icons/unlamold.png" }
+    { "name": "Dylan Rodriguez", "avatar": "/images/dylan_rodriguez.png" },
+    { "name": "Eze Raggio", "avatar": "/images/eze_raggio.png" },
+    { "name": "Javi Alberio", "avatar": "/images/javi_alberio.png" },
+    { "name": "Lucas Vasco", "avatar": "/images/lucas_vasco.png" },
+    { "name": "Marcos Corona", "avatar": "/images/marcos_corona.png" },
+    { "name": "Mauro Fredes", "avatar": "/images/mauro_fredes.png" },
+    { "name": "Nico Marenzi", "avatar": "/images/nico_marenzi.png" },
+    { "name": "Seba Gauto", "avatar": "/images/seba_gauto.png" }
   ]
 };
 
