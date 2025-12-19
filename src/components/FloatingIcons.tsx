@@ -4,14 +4,18 @@ import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 import Image from 'next/image';
 
-// TODO: Reemplaza estos nombres con los nombres de tus archivos de imagen en la carpeta `public/icons/`
-const iconFiles = [
-  'birrete.png',
-  'diploma.png',
-  'libro.png',
-  'copa.png',
-  'estrella.png',
-  'musica.png',
+// TODO: Reemplaza estos imports y la lista `iconFiles` con tus propias imágenes.
+// Asegúrate de que las imágenes estén en `src/lib/images`
+const iconImages: { [key: string]: any } = {
+  // Ejemplo:
+  // 'birrete.png': birrete,
+};
+
+// Añade aquí los nombres de tus archivos de imagen
+const iconFiles: string[] = [
+  // Ejemplo:
+  // 'birrete.png',
+  // 'diploma.png',
 ];
 
 function FloatingIcon({ iconData }: { iconData: any }) {
@@ -52,17 +56,22 @@ function FloatingIcon({ iconData }: { iconData: any }) {
 
 export function FloatingIcons() {
   const icons = useMemo(() => {
+    if (iconFiles.length === 0 || Object.keys(iconImages).length === 0) return [];
     return Array.from({ length: 12 }).map((_, i) => {
       const iconFile = iconFiles[i % iconFiles.length];
       return {
         id: i,
-        src: `/icons/${iconFile}`, // Las imágenes deben estar en la carpeta `public/icons/`
+        src: iconImages[iconFile],
         style: {
           top: '-10vh'
         },
       };
     });
   }, []);
+
+  if (icons.length === 0) {
+    return null;
+  }
 
   return (
     <div className="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
