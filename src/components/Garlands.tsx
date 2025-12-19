@@ -3,7 +3,7 @@ import Image from 'next/image';
 export function Garlands() {
   return (
     <div 
-      className="pointer-events-none absolute top-0 left-0 w-full z-20" 
+      className="pointer-events-none absolute top-0 left-0 w-full z-0" 
       aria-hidden="true"
     >
       <img 

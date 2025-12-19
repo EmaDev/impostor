@@ -24,6 +24,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { categories } from '@/lib/game-data';
 import { Garlands } from '@/components/Garlands';
+import { FloatingIcons } from '@/components/FloatingIcons';
+
 
 function GameRules() {
   return (
@@ -86,6 +88,7 @@ export default function Home() {
       <Suspense>
         <Confetti />
         <Garlands />
+        <FloatingIcons />
       </Suspense>
 
 
