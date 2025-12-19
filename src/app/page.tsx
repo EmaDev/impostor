@@ -12,6 +12,13 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { Card, CardContent } from "@/components/ui/card";
+import { categories } from '@/lib/game-data';
 
 function GameRules() {
   return (
@@ -54,6 +61,8 @@ function GameRules() {
   )
 }
 
+const categoryKeys = Object.keys(categories);
+
 export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden p-4 sm:p-8">
@@ -72,7 +81,32 @@ export default function Home() {
           LUCIA
         </h2>
       </div>
-      <div className="relative z-10 mt-12 flex flex-col sm:flex-row justify-center gap-4">
+
+      <div className="relative z-10 mt-8 w-full max-w-xs sm:max-w-sm md:max-w-md">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent>
+            {categoryKeys.map((category, index) => (
+              <CarouselItem key={index} className="basis-1/2 md:basis-1/3">
+                <div className="p-1">
+                  <Card>
+                    <CardContent className="flex aspect-square items-center justify-center p-4 text-center">
+                      <span className="text-md font-semibold">{category}</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
+
+      <div className="relative z-10 mt-8 flex flex-col sm:flex-row justify-center gap-4">
         <Link href="/create-room" passHref>
           <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="secondary">
             <FilePlus className="mr-3" />
