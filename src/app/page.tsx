@@ -128,7 +128,7 @@ export default function Home() {
               <CarouselItem key={index} className="basis-1/2 md:basis-1/3">
                 <div className="p-1">
                   <Card>
-                    <CardContent className="flex aspect-square items-center justify-center p-4 text-center">
+                    <CardContent className="flex items-center justify-center p-4 text-center">
                       <span className="text-md font-semibold">{category}</span>
                     </CardContent>
                   </Card>
