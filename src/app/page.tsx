@@ -100,7 +100,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative flex h-screen flex-col items-center justify-between overflow-hidden p-4 sm:p-8">
+    <main className="relative flex h-screen flex-col items-center justify-center overflow-hidden p-4 sm:p-6">
       <Suspense>
         <Confetti ref={confettiRef}/>
         <Garlands />
@@ -122,7 +122,7 @@ export default function Home() {
             </h2>
         </div>
 
-        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+        <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
           <Link href="/create-room" passHref>
             <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="secondary">
               <FilePlus className="mr-3" />
@@ -142,8 +142,8 @@ export default function Home() {
       </div>
 
       {/* Carousel Footer */}
-      <div className="relative z-10 mt-8 w-full max-w-sm sm:max-w-md md:max-w-lg">
-        <h3 className="mb-4 text-center text-lg font-semibold text-white" style={{ textShadow: '2px 2px 4px hsl(var(--primary-foreground))' }}>
+      <div className="relative z-10 w-full max-w-sm shrink-0 sm:max-w-md md:max-w-lg pb-4">
+        <h3 className="mb-2 text-center text-base font-semibold text-white sm:mb-4 sm:text-lg" style={{ textShadow: '2px 2px 4px hsl(var(--primary-foreground))' }}>
           Probá cualquiera de estas categorías
         </h3>
         <Carousel
