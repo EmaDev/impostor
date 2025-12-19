@@ -90,8 +90,8 @@ export default function GameSetupForm() {
         <CardTitle className="text-center text-2xl font-bold">Configurar Partida</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-6">
-        <div className="space-y-2">
-          <Label htmlFor="player-name">Nombres de Jugadores</Label>
+        <div className="space-y-4 rounded-lg border bg-card/50 p-4 shadow-sm">
+          <Label htmlFor="player-name" className="text-base font-semibold">Nombres de Jugadores</Label>
           <div className="flex gap-2">
             <Input
               id="player-name"
@@ -117,33 +117,36 @@ export default function GameSetupForm() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label>Impostores</Label>
-            <Select value={impostorCount} onValueChange={setImpostorCount}>
-              <SelectTrigger><Users /><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1 Impostor</SelectItem>
-                <SelectItem value="2">2 Impostores</SelectItem>
-                <SelectItem value="3">3 Impostores</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>Rondas</Label>
-            <Select value={rounds} onValueChange={setRounds}>
-              <SelectTrigger><Repeat /><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1 Ronda</SelectItem>
-                <SelectItem value="3">3 Rondas</SelectItem>
-                <SelectItem value="5">5 Rondas</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="rounded-lg border bg-card/50 p-4 shadow-sm">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="font-semibold">Impostores</Label>
+                <Select value={impostorCount} onValueChange={setImpostorCount}>
+                  <SelectTrigger><Users /><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">1 Impostor</SelectItem>
+                    <SelectItem value="2">2 Impostores</SelectItem>
+                    <SelectItem value="3">3 Impostores</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="font-semibold">Rondas</Label>
+                <Select value={rounds} onValueChange={setRounds}>
+                  <SelectTrigger><Repeat /><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">1 Ronda</SelectItem>
+                    <SelectItem value="3">3 Rondas</SelectItem>
+                    <SelectItem value="5">5 Rondas</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
         </div>
 
-        <div className="space-y-2">
-          <Label>Categorías</Label>
+
+        <div className="space-y-4 rounded-lg border bg-card/50 p-4 shadow-sm">
+          <Label className="text-base font-semibold">Categorías</Label>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             {categoryKeys.map(cat => {
               const isSpecialCategory = cat === 'Conocidos de Lucia';
