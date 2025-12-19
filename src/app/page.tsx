@@ -100,7 +100,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative flex h-screen flex-col items-center justify-center overflow-hidden p-4 sm:p-6">
+    <main className="relative flex h-svh flex-col items-center justify-center overflow-hidden p-4 sm:p-6">
       <Suspense>
         <Confetti ref={confettiRef}/>
         <Garlands />
