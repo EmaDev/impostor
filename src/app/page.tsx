@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense, useRef, useEffect } from 'react';
 import Autoplay from "embla-carousel-autoplay";
 import { Confetti, type ConfettiHandle } from '@/components/Confetti';
 import { Button } from '@/components/ui/button';
@@ -83,6 +83,17 @@ export default function Home() {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
+
+  useEffect(() => {
+    const fireConfetti = (delay: number) => {
+      setTimeout(() => {
+        confettiRef.current?.fire();
+      }, delay);
+    };
+    fireConfetti(0);
+    fireConfetti(500);
+    fireConfetti(1000);
+  }, []);
 
   const handleTitleClick = () => {
     confettiRef.current?.fire();

@@ -4,11 +4,24 @@ import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 import Image from 'next/image';
 
+import enhorabunea from "@/lib/icons/enhorabuena.png"
+import unlam from "@/lib/icons/unlamold.png"
+import graduado from "@/lib/icons/graduado.png"
+import graduacion from "@/lib/icons/graduacion.png"
+import diploma from "@/lib/icons/diploma-de-graduacion.png"
+import soltero from "@/lib/icons/soltero.png"
+
 // TODO: Reemplaza estos imports y la lista `iconFiles` con tus propias imágenes.
 // Asegúrate de que las imágenes estén en `src/lib/images`
 const iconImages: { [key: string]: any } = {
   // Ejemplo:
   // 'birrete.png': birrete,
+  "enhorabuena": enhorabunea,
+  "unlam": unlam,
+  "diploma": diploma,
+  "graduacion": graduacion,
+  "graduado": graduado,
+  "soltero": soltero
 };
 
 // Añade aquí los nombres de tus archivos de imagen
@@ -16,6 +29,12 @@ const iconFiles: string[] = [
   // Ejemplo:
   // 'birrete.png',
   // 'diploma.png',
+  "enhorabuena",
+  "unlam",
+  "diploma",
+  "graduacion",
+  "graduado",
+  "soltero"
 ];
 
 function FloatingIcon({ iconData }: { iconData: any }) {
