@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { categories } from '@/lib/game-data';
+import { Garlands } from '@/components/Garlands';
 
 function GameRules() {
   return (
@@ -85,6 +86,8 @@ export default function Home() {
       <Suspense>
         <Confetti />
       </Suspense>
+
+      <Garlands />
 
       {/* Main content area */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center text-center">
