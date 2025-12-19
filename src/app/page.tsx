@@ -81,7 +81,7 @@ export default function Home() {
       <FloatingIcons />
 
       {/* Main content area */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center pt-16">
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center text-center">
         <h1 className="font-headline text-6xl font-black tracking-tight text-white sm:text-8xl md:text-9xl" style={{ textShadow: '4px 4px 0px hsl(var(--primary-foreground)), 8px 8px 0px hsla(var(--primary-foreground) / 0.3)' }}>
           IMPOSTOR
         </h1>
@@ -125,7 +125,7 @@ export default function Home() {
         >
           <CarouselContent>
             {categoryKeys.map((category, index) => (
-              <CarouselItem key={index} className="basis-1/2 sm:basis-1/3">
+              <CarouselItem key={index} className="basis-auto sm:basis-1/3">
                 <div className="p-1">
                   <Card>
                     <CardContent className="flex items-center justify-center p-4 text-center">
