@@ -3,7 +3,6 @@
 import React, { Suspense } from 'react';
 import Autoplay from "embla-carousel-autoplay";
 import { Confetti } from '@/components/Confetti';
-import { FloatingIcons } from '@/components/icons/FloatingIcons';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { FilePlus, BookOpen } from 'lucide-react';
@@ -86,7 +85,6 @@ export default function Home() {
       <Suspense>
         <Confetti />
       </Suspense>
-      <FloatingIcons />
 
       {/* Main content area */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center text-center">
