@@ -143,6 +143,9 @@ export default function Home() {
 
       {/* Carousel Footer */}
       <div className="relative z-10 mt-8 w-full max-w-sm sm:max-w-md md:max-w-lg">
+        <h3 className="mb-4 text-center text-lg font-semibold text-white" style={{ textShadow: '2px 2px 4px hsl(var(--primary-foreground))' }}>
+          Probá cualquiera de estas categorías
+        </h3>
         <Carousel
           plugins={[plugin.current]}
           opts={{
