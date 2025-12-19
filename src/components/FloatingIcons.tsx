@@ -1,22 +1,23 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Award, Cake, Mic, Music, Star, Gift } from 'lucide-react';
 import { useMemo } from 'react';
+import Image from 'next/image';
 
-const iconConfig = [
-  { icon: Award, color: 'text-yellow-400' },
-  { icon: Cake, color: 'text-pink-400' },
-  { icon: Mic, color: 'text-blue-400' },
-  { icon: Music, color: 'text-purple-400' },
-  { icon: Star, color: 'text-yellow-300' },
-  { icon: Gift, color: 'text-red-400' },
+// TODO: Reemplaza estos nombres con los nombres de tus archivos de imagen en la carpeta `public/icons/`
+const iconFiles = [
+  'birrete.png',
+  'diploma.png',
+  'libro.png',
+  'copa.png',
+  'estrella.png',
+  'musica.png',
 ];
 
 function FloatingIcon({ iconData }: { iconData: any }) {
-  const { icon: Icon, color, style } = iconData;
-  const duration = useMemo(() => Math.random() * 5 + 5, []); // 5-10 seconds
-  const delay = useMemo(() => Math.random() * 5, []); // 0-5 seconds
+  const { src, style } = iconData;
+  const duration = useMemo(() => Math.random() * 8 + 7, []); // 7-15 seconds
+  const delay = useMemo(() => Math.random() * 7, []); // 0-7 seconds
   const xStart = useMemo(() => Math.random() * 80 + 10, []); // 10-90%
   const xEnd = useMemo(() => Math.random() * 80 + 10, []); // 10-90%
 
@@ -27,7 +28,7 @@ function FloatingIcon({ iconData }: { iconData: any }) {
         ...style,
         left: `${xStart}%`,
         transform: 'translateX(-50%)',
-        opacity: 0.7
+        opacity: 0.8
       }}
       animate={{
         y: ['-10vh', '110vh'],
@@ -42,7 +43,9 @@ function FloatingIcon({ iconData }: { iconData: any }) {
         ease: 'linear',
       }}
     >
-      <Icon className={`w-8 h-8 md:w-12 md:h-12 ${color}`} style={{ filter: 'drop-shadow(0 0 5px currentColor)' }}/>
+      <div className="relative w-8 h-8 md:w-12 md:h-12" style={{ filter: 'drop-shadow(0 0 5px rgba(0,0,0,0.3))' }}>
+        <Image src={src} alt="" layout="fill" objectFit="contain" />
+      </div>
     </motion.div>
   );
 }
@@ -50,10 +53,10 @@ function FloatingIcon({ iconData }: { iconData: any }) {
 export function FloatingIcons() {
   const icons = useMemo(() => {
     return Array.from({ length: 12 }).map((_, i) => {
-      const config = iconConfig[i % iconConfig.length];
+      const iconFile = iconFiles[i % iconFiles.length];
       return {
-        ...config,
         id: i,
+        src: `/icons/${iconFile}`, // Las imágenes deben estar en la carpeta `public/icons/`
         style: {
           top: '-10vh'
         },
