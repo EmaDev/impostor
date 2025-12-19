@@ -67,6 +67,14 @@ function GameRules() {
 }
 
 const categoryKeys = Object.keys(categories);
+const cardColors = [
+  'bg-primary/70',
+  'bg-secondary/70',
+  'bg-accent/70',
+  'bg-violet-300',
+  'bg-blue-300',
+  'bg-emerald-300',
+];
 
 export default function Home() {
   const plugin = React.useRef(
@@ -127,9 +135,9 @@ export default function Home() {
             {categoryKeys.map((category, index) => (
               <CarouselItem key={index} className="basis-auto sm:basis-1/3">
                 <div className="p-1">
-                  <Card>
+                  <Card className={`${cardColors[index % cardColors.length]}`}>
                     <CardContent className="flex items-center justify-center p-4 text-center">
-                      <span className="text-sm font-semibold whitespace-nowrap">{category}</span>
+                      <span className="text-sm font-semibold whitespace-nowrap text-primary-foreground">{category}</span>
                     </CardContent>
                   </Card>
                 </div>
