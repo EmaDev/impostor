@@ -112,7 +112,7 @@ export default function Home() {
       </div>
 
       {/* Carousel Footer */}
-      <div className="relative z-10 mt-8 w-full max-w-xs sm:max-w-sm md:max-w-md">
+      <div className="relative z-10 mt-8 w-full max-w-sm sm:max-w-md md:max-w-lg">
         <Carousel
           plugins={[plugin.current]}
           opts={{
@@ -125,11 +125,11 @@ export default function Home() {
         >
           <CarouselContent>
             {categoryKeys.map((category, index) => (
-              <CarouselItem key={index} className="basis-1/2 md:basis-1/3">
+              <CarouselItem key={index} className="basis-1/2 sm:basis-1/3">
                 <div className="p-1">
                   <Card>
                     <CardContent className="flex items-center justify-center p-4 text-center">
-                      <span className="text-md font-semibold">{category}</span>
+                      <span className="text-sm font-semibold whitespace-nowrap">{category}</span>
                     </CardContent>
                   </Card>
                 </div>
