@@ -16,6 +16,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { categories } from '@/lib/game-data';
@@ -65,12 +67,14 @@ const categoryKeys = Object.keys(categories);
 
 export default function Home() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden p-4 sm:p-8">
+    <main className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden p-4 sm:p-8">
       <Suspense>
         <Confetti />
       </Suspense>
       <FloatingIcons />
-      <div className="relative z-10 flex flex-col items-center justify-center text-center">
+
+      {/* Main content area */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center pt-16">
         <h1 className="font-headline text-6xl font-black tracking-tight text-white sm:text-8xl md:text-9xl" style={{ textShadow: '4px 4px 0px hsl(var(--primary-foreground)), 8px 8px 0px hsla(var(--primary-foreground) / 0.3)' }}>
           IMPOSTOR
         </h1>
@@ -80,8 +84,27 @@ export default function Home() {
         <h2 className="font-headline -mt-2 text-4xl font-black tracking-tight text-white sm:-mt-4 sm:text-6xl md:-mt-6 md:text-7xl" style={{ textShadow: '4px 4px 0px hsl(var(--primary-foreground)), 8px 8px 0px hsla(var(--primary-foreground) / 0.3)' }}>
           LUCIA
         </h2>
+
+        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+          <Link href="/create-room" passHref>
+            <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="secondary">
+              <FilePlus className="mr-3" />
+              Crear Sala
+            </Button>
+          </Link>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="outline">
+                <BookOpen className="mr-3" />
+                Ver Reglas
+              </Button>
+            </DialogTrigger>
+            <GameRules />
+          </Dialog>
+        </div>
       </div>
 
+      {/* Carousel Footer */}
       <div className="relative z-10 mt-8 w-full max-w-xs sm:max-w-sm md:max-w-md">
         <Carousel
           opts={{
@@ -103,25 +126,9 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
-      </div>
-
-      <div className="relative z-10 mt-8 flex flex-col sm:flex-row justify-center gap-4">
-        <Link href="/create-room" passHref>
-          <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="secondary">
-            <FilePlus className="mr-3" />
-            Crear Sala
-          </Button>
-        </Link>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="outline">
-              <BookOpen className="mr-3" />
-              Ver Reglas
-            </Button>
-          </DialogTrigger>
-          <GameRules />
-        </Dialog>
       </div>
     </main>
   );
