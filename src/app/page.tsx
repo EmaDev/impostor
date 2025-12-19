@@ -1,4 +1,7 @@
-import { Suspense } from 'react';
+'use client';
+
+import React, { Suspense } from 'react';
+import Autoplay from "embla-carousel-autoplay";
 import { Confetti } from '@/components/Confetti';
 import { FloatingIcons } from '@/components/icons/FloatingIcons';
 import { Button } from '@/components/ui/button';
@@ -66,6 +69,10 @@ function GameRules() {
 const categoryKeys = Object.keys(categories);
 
 export default function Home() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  );
+
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden p-4 sm:p-8">
       <Suspense>
@@ -107,11 +114,14 @@ export default function Home() {
       {/* Carousel Footer */}
       <div className="relative z-10 mt-8 w-full max-w-xs sm:max-w-sm md:max-w-md">
         <Carousel
+          plugins={[plugin.current]}
           opts={{
             align: "start",
             loop: true,
           }}
           className="w-full"
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
         >
           <CarouselContent>
             {categoryKeys.map((category, index) => (
