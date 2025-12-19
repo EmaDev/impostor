@@ -1,8 +1,8 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useRef } from 'react';
 import Autoplay from "embla-carousel-autoplay";
-import { Confetti } from '@/components/Confetti';
+import { Confetti, type ConfettiHandle } from '@/components/Confetti';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { FilePlus, BookOpen } from 'lucide-react';
@@ -79,14 +79,19 @@ const cardColors = [
 ];
 
 export default function Home() {
+  const confettiRef = useRef<ConfettiHandle>(null);
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
 
+  const handleTitleClick = () => {
+    confettiRef.current?.fire();
+  };
+
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden p-4 sm:p-8">
       <Suspense>
-        <Confetti />
+        <Confetti ref={confettiRef}/>
         <Garlands />
         <FloatingIcons />
       </Suspense>
@@ -94,15 +99,17 @@ export default function Home() {
 
       {/* Main content area */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center text-center">
-        <h1 className="font-headline text-6xl font-black tracking-tight text-white sm:text-8xl md:text-9xl" style={{ textShadow: '4px 4px 0px hsl(var(--primary-foreground)), 8px 8px 0px hsla(var(--primary-foreground) / 0.3)' }}>
-          IMPOSTOR
-        </h1>
-        <h2 className="font-headline -mt-2 text-4xl font-black tracking-tight text-white sm:-mt-4 sm:text-6xl md:-mt-6 md:text-7xl" style={{ textShadow: '4px 4px 0px hsl(var(--primary-foreground)), 8px 8px 0px hsla(var(--primary-foreground) / 0.3)' }}>
-          RECIBIDA
-        </h2>
-        <h2 className="font-headline -mt-2 text-4xl font-black tracking-tight text-white sm:-mt-4 sm:text-6xl md:-mt-6 md:text-7xl" style={{ textShadow: '4px 4px 0px hsl(var(--primary-foreground)), 8px 8px 0px hsla(var(--primary-foreground) / 0.3)' }}>
-          LUCIA
-        </h2>
+        <div onClick={handleTitleClick} className="cursor-pointer">
+            <h1 className="font-headline text-6xl font-black tracking-tight text-white sm:text-8xl md:text-9xl" style={{ textShadow: '4px 4px 0px hsl(var(--primary-foreground)), 8px 8px 0px hsla(var(--primary-foreground) / 0.3)' }}>
+            IMPOSTOR
+            </h1>
+            <h2 className="font-headline -mt-2 text-4xl font-black tracking-tight text-white sm:-mt-4 sm:text-6xl md:-mt-6 md:text-7xl" style={{ textShadow: '4px 4px 0px hsl(var(--primary-foreground)), 8px 8px 0px hsla(var(--primary-foreground) / 0.3)' }}>
+            RECIBIDA
+            </h2>
+            <h2 className="font-headline -mt-2 text-4xl font-black tracking-tight text-white sm:-mt-4 sm:text-6xl md:-mt-6 md:text-7xl" style={{ textShadow: '4px 4px 0px hsl(var(--primary-foreground)), 8px 8px 0px hsla(var(--primary-foreground) / 0.3)' }}>
+            LUCIA
+            </h2>
+        </div>
 
         <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
           <Link href="/create-room" passHref>
