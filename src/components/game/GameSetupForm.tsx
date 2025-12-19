@@ -105,16 +105,16 @@ export default function GameSetupForm() {
               Agregar
             </Button>
           </div>
-          <ul className="mt-2 space-y-2">
+          <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
             {players.map(p => (
-              <li key={p} className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-1.5 text-sm">
+              <div key={p} className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-1.5 text-sm">
                 <span>{p}</span>
                 <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removePlayer(p)}>
                   <X className="h-4 w-4" />
                 </Button>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -152,7 +152,10 @@ export default function GameSetupForm() {
                   key={cat}
                   variant={selectedCategory === cat ? 'default' : 'outline'}
                   onClick={() => setSelectedCategory(cat)}
-                  className={cn("w-full justify-center", isSpecialCategory && 'btn-confetti')}
+                  className={cn(
+                    "w-full justify-center", 
+                    isSpecialCategory && 'btn-confetti'
+                  )}
                 >
                   {isSpecialCategory && <Star className="mr-2 h-4 w-4" />}
                   {selectedCategory === cat && !isSpecialCategory && <ThumbsUp className="mr-2 h-4 w-4" />}
