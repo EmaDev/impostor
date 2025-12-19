@@ -1,44 +1,64 @@
 export function Garlands() {
   return (
     <div
-      className="pointer-events-none absolute top-0 left-0 w-full overflow-hidden z-20"
+      className="pointer-events-none absolute top-0 left-0 w-full z-20"
       aria-hidden="true"
     >
       <svg
         width="100%"
-        height="auto"
+        height="60"
         viewBox="0 0 1440 60"
+        fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full"
+        className="w-full h-auto"
+        preserveAspectRatio="xMidYMin slice"
       >
         <path
-          d="M0 30 C 180 70, 360 -10, 540 30 S 900 -10, 1080 30 S 1440 -10, 1440 30"
-          fill="none"
-          stroke="#4a4a4a"
+          d="M0 0.5C159.5 59 288.5 59 450 0.5"
+          stroke="#E5E7EB"
           strokeWidth="2"
         />
-        <defs>
-          <path id="flag" d="M 0 0 L 15 20 L 30 0 Z" />
-        </defs>
-
-        <use href="#flag" fill="#EAB308" transform="translate(100, 38) rotate(-8)" />
-        <use href="#flag" fill="#8B5CF6" transform="translate(180, 48) rotate(5)" />
-        <use href="#flag" fill="#3B82F6" transform="translate(260, 44) rotate(-3)" />
-        <use href="#flag" fill="#EC4899" transform="translate(340, 26) rotate(-12)" />
-        <use href="#flag" fill="#10B981" transform="translate(420, 14) rotate(5)" />
-        <use href="#flag" fill="#F97316" transform="translate(500, 26) rotate(15)" />
-
-        <use href="#flag" fill="#EAB308" transform="translate(600, 36) rotate(-5)" />
-        <use href="#flag" fill="#8B5CF6" transform="translate(680, 28) rotate(12)" />
-        <use href="#flag" fill="#3B82F6" transform="translate(760, 19) rotate(-3)" />
-        <use href="#flag" fill="#EC4899" transform="translate(840, 28) rotate(-10)" />
-        <use href="#flag" fill="#10B981" transform="translate(920, 41) rotate(2)" />
-        <use href="#flag" fill="#F97316" transform="translate(1000, 48) rotate(10)" />
+        <path
+          d="M450 0.5C609.5 59 738.5 59 900 0.5"
+          stroke="#E5E7EB"
+          strokeWidth="2"
+        />
+        <path
+          d="M900 0.5C1059.5 59 1188.5 59 1350 0.5"
+          stroke="#E5E7EB"
+          strokeWidth="2"
+        />
+        <path d="M1350 0.5C1404.17 31 1440 31 1440 0.5" stroke="#E5E7EB" strokeWidth="2" />
         
-        <use href="#flag" fill="#EAB308" transform="translate(1100, 38) rotate(-8)" />
-        <use href="#flag" fill="#8B5CF6" transform="translate(1180, 24) rotate(5)" />
-        <use href="#flag" fill="#3B82F6" transform="translate(1260, 15) rotate(-3)" />
-        <use href="#flag" fill="#EC4899" transform="translate(1340, 30) rotate(-12)" />
+        {/* Banderines */}
+        <polygon points="50,23 60,2 70,23" fill="#fde68a" />
+        <polygon points="100,38 110,17 120,38" fill="#d8b4fe" />
+        <polygon points="150,49 160,28 170,49" fill="#a78bfa" />
+        <polygon points="200,53 210,32 220,53" fill="#60a5fa" />
+        <polygon points="250,49 260,28 270,49" fill="#facc15" />
+        <polygon points="300,38 310,17 320,38" fill="#fde68a" />
+        <polygon points="350,23 360,2 370,23" fill="#d8b4fe" />
+        
+        <polygon points="400,2 410,23 420,2" fill="#a78bfa" />
+
+        {/* Repetir patrón */}
+        <polygon points="500,23 510,2 520,23" fill="#fde68a" />
+        <polygon points="550,38 560,17 570,38" fill="#d8b4fe" />
+        <polygon points="600,49 610,28 620,49" fill="#a78bfa" />
+        <polygon points="650,53 660,32 670,53" fill="#60a5fa" />
+        <polygon points="700,49 710,28 720,49" fill="#facc15" />
+        <polygon points="750,38 760,17 770,38" fill="#fde68a" />
+        <polygon points="800,23 810,2 820,23" fill="#d8b4fe" />
+        <polygon points="850,2 860,23 870,2" fill="#a78bfa" />
+
+        <polygon points="950,23 960,2 970,23" fill="#fde68a" />
+        <polygon points="1000,38 1010,17 1020,38" fill="#d8b4fe" />
+        <polygon points="1050,49 1060,28 1070,49" fill="#a78bfa" />
+        <polygon points="1100,53 1110,32 1120,53" fill="#60a5fa" />
+        <polygon points="1150,49 1160,28 1170,49" fill="#facc15" />
+        <polygon points="1200,38 1210,17 1220,38" fill="#fde68a" />
+        <polygon points="1250,23 1260,2 1270,23" fill="#d8b4fe" />
+        <polygon points="1300,2 1310,23 1320,2" fill="#a78bfa" />
       </svg>
     </div>
   );
