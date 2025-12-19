@@ -85,9 +85,9 @@ export default function Home() {
     <main className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden p-4 sm:p-8">
       <Suspense>
         <Confetti />
+        <Garlands />
       </Suspense>
 
-      <Garlands />
 
       {/* Main content area */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center text-center">
