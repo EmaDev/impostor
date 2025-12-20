@@ -164,7 +164,7 @@ export const categories = {
   { "name": "Danilo Bonino", "avatar": "danilo_bonino.png" },
   { "name": "Mati Carrizo", "avatar": "mati_carrizo.png" },
   { "name": "Coni Gatica", "avatar": "coni_gatica.png" },
-  { "name": "Micalzado", "avatar": "micalzado.png" },
+  { "name": "Mica Otranto", "avatar": "micalzado.png" },
   { "name": "Lucia Perri", "avatar": "lucia_perri.png" },
   { "name": "Camila Puy", "avatar": "camila_puy.png" },
   { "name": "Lucas Perri", "avatar": "lucas_perri.png" },
