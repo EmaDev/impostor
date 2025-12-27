@@ -185,6 +185,7 @@ export default function GameClient() {
         <DebateScreen
           players={settings.players}
           onNextRound={handleNextRound}
+          onEndGame={handleEndGame}
           currentRound={currentRound}
           totalRounds={settings.rounds}
         />

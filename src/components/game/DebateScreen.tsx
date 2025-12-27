@@ -4,16 +4,17 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import CountdownTimer from './CountdownTimer';
-import { Users, Repeat, Trophy, TimerOff } from 'lucide-react';
+import { Users, Repeat, Trophy, TimerOff, XSquare } from 'lucide-react';
 
 interface DebateScreenProps {
   players: string[];
   onNextRound: () => void;
+  onEndGame: () => void;
   currentRound: number;
   totalRounds: number;
 }
 
-export default function DebateScreen({ players, onNextRound, currentRound, totalRounds }: DebateScreenProps) {
+export default function DebateScreen({ players, onNextRound, onEndGame, currentRound, totalRounds }: DebateScreenProps) {
   const [isTimerVisible, setIsTimerVisible] = useState(true);
   const isLastRound = currentRound === totalRounds;
 
@@ -44,10 +45,14 @@ export default function DebateScreen({ players, onNextRound, currentRound, total
           </ul>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex flex-col gap-2">
         <Button size="lg" onClick={onNextRound} className="w-full">
-          {isLastRound ? <Trophy className="mr-2" /> : <Repeat className="mr-2" />}
-          {isLastRound ? 'Finalizar Partida' : 'Siguiente Ronda'}
+          <Repeat className="mr-2" />
+          {isLastRound ? 'Ver resultados' : 'Siguiente Ronda'}
+        </Button>
+         <Button size="lg" variant="destructive" onClick={onEndGame} className="w-full">
+            <Trophy className="mr-2" />
+            Finalizar Partida
         </Button>
       </CardFooter>
     </Card>
