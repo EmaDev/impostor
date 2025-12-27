@@ -5,7 +5,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { Confetti, type ConfettiHandle } from '@/components/Confetti';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { FilePlus, BookOpen } from 'lucide-react';
+import { FilePlus, BookOpen, UserCheck } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -126,7 +126,13 @@ export default function Home() {
           <Link href="/create-room" passHref>
             <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="secondary">
               <FilePlus className="mr-3" />
-              Crear Sala
+              Impostor
+            </Button>
+          </Link>
+          <Link href="/who-is-who" passHref>
+            <Button size="lg" className="w-full sm:w-auto text-xl font-bold" variant="default">
+              <UserCheck className="mr-3" />
+              Adivina Quién
             </Button>
           </Link>
           <Dialog>

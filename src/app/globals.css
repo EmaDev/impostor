@@ -83,4 +83,9 @@
     font-weight: bold;
     text-shadow: 0 0 5px hsl(var(--background) / 0.7);
   }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
 }
