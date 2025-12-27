@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { categories, type KnownPerson, type Category } from '@/lib/game-data';
 import CharacterCard from './CharacterCard';
@@ -11,15 +11,21 @@ import { Label } from '@/components/ui/label';
 
 const BOARD_SIZE = 40;
 
-// Filter categories that are compatible with Who is Who (i.e., have avatar images)
-const compatibleCategories = Object.keys(categories).filter(key => 
-    Array.isArray(categories[key as Category]) &&
-    typeof (categories[key as Category] as any[])[0] === 'object' &&
-    'avatar' in (categories[key as Category] as any[])[0]
-) as Category[];
+const compatibleCategories: Category[] = [
+    "Conocidos de Lucia",
+    "Famosos Argentina",
+    "Famosos Mundial",
+    "Músicos y bandas"
+];
 
+const getCharactersForCategory = (category: Category): KnownPerson[] => {
+    const categoryData = categories[category];
+    if (typeof categoryData[0] === 'string') {
+        return (categoryData as string[]).map(name => ({ name }));
+    }
+    return categoryData as KnownPerson[];
+};
 
-// Function to get a unique list of characters
 const getUniqueCharacters = (people: KnownPerson[]): KnownPerson[] => {
     const unique = new Map<string, KnownPerson>();
     people.forEach(person => {
@@ -30,7 +36,6 @@ const getUniqueCharacters = (people: KnownPerson[]): KnownPerson[] => {
     return Array.from(unique.values());
 };
 
-// Shuffle array
 const shuffleArray = (array: any[]) => {
   return [...array].sort(() => Math.random() - 0.5);
 };
@@ -39,20 +44,19 @@ export default function WhoIsWhoGame() {
     const router = useRouter();
     
     const [selectedCategory, setSelectedCategory] = useState<Category>(compatibleCategories[0]);
-    const [allCharacters, setAllCharacters] = useState<KnownPerson[]>([]);
     const [boardCharacters, setBoardCharacters] = useState<KnownPerson[]>([]);
     const [secretCharacter, setSecretCharacter] = useState<KnownPerson | null>(null);
     const [flippedStates, setFlippedStates] = useState<{[key: string]: boolean}>({});
 
     const setupGame = (category: Category) => {
-        const characters = getUniqueCharacters(categories[category] as KnownPerson[]);
-        setAllCharacters(characters);
-
+        const characters = getUniqueCharacters(getCharactersForCategory(category));
+        
         const newBoardChars = shuffleArray(characters).slice(0, BOARD_SIZE);
         setBoardCharacters(newBoardChars);
 
         if (newBoardChars.length > 0) {
-            setSecretCharacter(newBoardChars[Math.floor(Math.random() * newBoardChars.length)]);
+            const secret = newBoardChars[Math.floor(Math.random() * newBoardChars.length)];
+            setSecretCharacter(secret);
             setFlippedStates(newBoardChars.reduce((acc, char) => ({...acc, [char.name]: false }), {}));
         } else {
             setSecretCharacter(null);

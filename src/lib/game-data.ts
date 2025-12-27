@@ -1,6 +1,6 @@
 export type KnownPerson = {
   name: string;
-  avatar: string; // This will now be the filename, e.g., "dylan_rodriguez.png"
+  avatar?: string; // This will now be the filename, e.g., "dylan_rodriguez.png"
 };
 
 export const categories = {

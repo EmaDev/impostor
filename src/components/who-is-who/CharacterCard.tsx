@@ -97,7 +97,8 @@ interface CharacterCardProps {
 }
 
 export default function CharacterCard({ character, isFlipped, onToggleFlip }: CharacterCardProps) {
-    const imageSrc = avatarImages[character.avatar];
+    const hasImage = character.avatar && avatarImages[character.avatar];
+    const imageSrc = hasImage ? avatarImages[character.avatar] : null;
 
     return (
         <motion.div
@@ -108,19 +109,27 @@ export default function CharacterCard({ character, isFlipped, onToggleFlip }: Ch
             style={{ transformStyle: 'preserve-3d' }}
         >
             {/* Front of card */}
-            <div className="absolute w-full h-full backface-hidden flex flex-col items-center justify-center bg-card rounded-lg overflow-hidden border-2 border-primary/50">
-                <div className="relative w-full h-full">
-                    <Image 
-                        src={imageSrc} 
-                        alt={character.name} 
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-transform duration-300 group-hover:scale-110"
-                    />
-                </div>
-                 <div className="absolute bottom-0 w-full bg-black/50 p-1 text-center">
-                    <p className="text-white text-xs font-bold truncate">{character.name}</p>
-                </div>
+            <div className="absolute w-full h-full backface-hidden flex flex-col items-center justify-center bg-card rounded-lg overflow-hidden border-2 border-primary/50 p-1">
+                {hasImage && imageSrc ? (
+                    <>
+                        <div className="relative w-full h-full">
+                            <Image 
+                                src={imageSrc} 
+                                alt={character.name} 
+                                layout="fill"
+                                objectFit="cover"
+                                className="transition-transform duration-300 group-hover:scale-110"
+                            />
+                        </div>
+                         <div className="absolute bottom-0 w-full bg-black/50 p-1 text-center">
+                            <p className="text-white text-xs font-bold truncate">{character.name}</p>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex items-center justify-center w-full h-full text-center">
+                         <p className="text-foreground text-sm font-bold">{character.name}</p>
+                    </div>
+                )}
             </div>
 
             {/* Back of card */}
