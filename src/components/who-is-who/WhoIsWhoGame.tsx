@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { categories } from '@/lib/game-data';
 import CharacterCard from './CharacterCard';
 import { Button } from '@/components/ui/button';
-import { RefreshCcw, HelpCircle } from 'lucide-react';
+import { RefreshCcw, HelpCircle, Home } from 'lucide-react';
 
 const knownPeople = categories['Conocidos de Lucia'];
 const BOARD_SIZE = 40;
@@ -27,6 +28,7 @@ const shuffleArray = (array: any[]) => {
 
 
 export default function WhoIsWhoGame() {
+    const router = useRouter();
     const allCharacters = useMemo(() => getUniqueCharacters(), []);
     const [boardCharacters, setBoardCharacters] = useState(() => shuffleArray(allCharacters).slice(0, BOARD_SIZE));
     const [secretCharacter, setSecretCharacter] = useState(() => boardCharacters[Math.floor(Math.random() * boardCharacters.length)]);
@@ -66,10 +68,16 @@ export default function WhoIsWhoGame() {
                 ))}
             </div>
 
-            <Button onClick={resetGame} className="mt-6 text-lg" size="lg">
-                <RefreshCcw className="mr-2 h-5 w-5" />
-                Reiniciar Juego
-            </Button>
+            <div className="mt-6 flex flex-col sm:flex-row gap-4">
+                <Button onClick={resetGame} className="text-lg" size="lg">
+                    <RefreshCcw className="mr-2 h-5 w-5" />
+                    Reiniciar Juego
+                </Button>
+                 <Button onClick={() => router.push('/')} className="text-lg" size="lg" variant="secondary">
+                    <Home className="mr-2 h-5 w-5" />
+                    Volver al Inicio
+                </Button>
+            </div>
         </div>
     );
 }
