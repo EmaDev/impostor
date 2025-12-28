@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster as OldToaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: 'Impostor Recibida Lucía',
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className="font-body antialiased select-none">
         <div className="fixed top-0 left-0 -z-10 h-full w-full bg-gradient-to-br from-yellow-200 via-purple-300 to-blue-300"></div>
         {children}
+        <OldToaster />
         <Toaster />
       </body>
     </html>

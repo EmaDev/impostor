@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { categories, type KnownPerson, type Category } from '@/lib/game-data';
 import CharacterCard from './CharacterCard';
 import { Button } from '@/components/ui/button';
-import { RefreshCcw, HelpCircle, Home, Users } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { RefreshCcw, HelpCircle, Home, Users, Share2, ClipboardCopy } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 const BOARD_SIZE = 40;
 
@@ -19,7 +20,6 @@ const compatibleCategories: Category[] = [
 
 const getCharactersForCategory = (category: Category): KnownPerson[] => {
     const categoryData = categories[category];
-    // Ensure all items are objects
     return (categoryData as any[]).map(item => 
         typeof item === 'string' ? { name: item } : item
     );
@@ -41,33 +41,65 @@ const shuffleArray = (array: any[]) => {
 
 export default function WhoIsWhoGame() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     
-    const [gameState, setGameState] = useState<'selecting' | 'playing'>('selecting');
+    const [gameState, setGameState] = useState<'selecting' | 'sharing' | 'playing'>('selecting');
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
     const [boardCharacters, setBoardCharacters] = useState<KnownPerson[]>([]);
     const [secretCharacter, setSecretCharacter] = useState<KnownPerson | null>(null);
     const [flippedStates, setFlippedStates] = useState<{[key: string]: boolean}>({});
+    const [shareUrl, setShareUrl] = useState('');
 
-    const setupGame = (category: Category) => {
-        const characters = getUniqueCharacters(getCharactersForCategory(category));
-        
-        const newBoardChars = shuffleArray(characters).slice(0, BOARD_SIZE);
-        setBoardCharacters(newBoardChars);
+    useEffect(() => {
+        const boardParam = searchParams.get('board');
+        if (boardParam) {
+            try {
+                const characterNames = JSON.parse(atob(boardParam));
+                const allChars = compatibleCategories.flatMap(getCharactersForCategory);
+                const uniqueChars = getUniqueCharacters(allChars);
+                
+                const board: KnownPerson[] = characterNames.map((name: string) => 
+                    uniqueChars.find(char => char.name === name)
+                ).filter((c: KnownPerson | undefined): c is KnownPerson => c !== undefined);
 
-        if (newBoardChars.length > 0) {
-            const secret = newBoardChars[Math.floor(Math.random() * newBoardChars.length)];
-            setSecretCharacter(secret);
-            setFlippedStates(newBoardChars.reduce((acc, char) => ({...acc, [char.name]: false }), {}));
-            setGameState('playing');
-        } else {
-            // Handle case with no characters
-            setGameState('selecting');
+                if (board.length > 0) {
+                    setBoardCharacters(board);
+                    const secret = board[Math.floor(Math.random() * board.length)];
+                    setSecretCharacter(secret);
+                    setFlippedStates(board.reduce((acc, char) => ({ ...acc, [char.name]: false }), {}));
+                    setGameState('playing');
+                }
+            } catch (error) {
+                console.error("Failed to parse board from URL, returning to selection.", error);
+                router.replace('/who-is-who');
+                setGameState('selecting');
+            }
         }
-    };
+    }, [searchParams, router]);
+
 
     const handleCategorySelect = (category: Category) => {
         setSelectedCategory(category);
-        setupGame(category);
+        const characters = getUniqueCharacters(getCharactersForCategory(category));
+        const newBoardChars = shuffleArray(characters).slice(0, BOARD_SIZE);
+        
+        const characterNames = newBoardChars.map(c => c.name);
+        const encodedBoard = btoa(JSON.stringify(characterNames));
+        
+        const url = new URL(window.location.href);
+        url.searchParams.set('board', encodedBoard);
+        
+        setShareUrl(url.toString());
+        setGameState('sharing');
+    };
+    
+    const copyShareUrl = () => {
+        navigator.clipboard.writeText(shareUrl);
+        toast.success('¡Enlace copiado! Compártelo con otro jugador.');
+    };
+
+    const startGameFromUrl = () => {
+        router.push(shareUrl);
     };
 
     const toggleFlip = (name: string) => {
@@ -75,8 +107,10 @@ export default function WhoIsWhoGame() {
     };
 
     const resetGame = () => {
-        if (selectedCategory) {
-            setupGame(selectedCategory);
+        if (boardCharacters.length > 0) {
+             const secret = boardCharacters[Math.floor(Math.random() * boardCharacters.length)];
+            setSecretCharacter(secret);
+            setFlippedStates(boardCharacters.reduce((acc, char) => ({...acc, [char.name]: false }), {}));
         }
     };
   
@@ -86,11 +120,12 @@ export default function WhoIsWhoGame() {
                 <Card className="w-full max-w-md">
                     <CardHeader>
                         <CardTitle className="text-2xl font-bold text-center">Elige una Categoría</CardTitle>
+                        <CardDescription className="text-center">Elige una categoría para generar un tablero y compartirlo.</CardDescription>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {compatibleCategories.map(cat => (
                             <Button key={cat} size="lg" variant="secondary" onClick={() => handleCategorySelect(cat)}>
-                                <Users className="mr-2 h-5 w-5" />
+                                <Share2 className="mr-2 h-5 w-5" />
                                 {cat}
                             </Button>
                         ))}
@@ -103,8 +138,40 @@ export default function WhoIsWhoGame() {
             </div>
         );
     }
+    
+    if (gameState === 'sharing') {
+         return (
+            <div className="flex flex-col items-center justify-center min-h-screen p-4">
+                <Card className="w-full max-w-md text-center">
+                    <CardHeader>
+                        <CardTitle className="text-2xl font-bold">¡Listo para compartir!</CardTitle>
+                        <CardDescription>Copia este enlace y envíalo a otro jugador. Luego, presiona "Empezar Juego" para jugar con el mismo tablero.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                       <div className="flex gap-2">
+                         <input
+                            type="text"
+                            value={shareUrl}
+                            readOnly
+                            className="w-full rounded-md border bg-muted px-3 py-2 text-sm text-muted-foreground"
+                         />
+                         <Button onClick={copyShareUrl} variant="outline" size="icon" aria-label="Copiar enlace">
+                            <ClipboardCopy className="h-5 w-5"/>
+                         </Button>
+                       </div>
+                       <Button onClick={startGameFromUrl} size="lg" className="w-full">
+                           Empezar Juego
+                       </Button>
+                        <Button onClick={() => setGameState('selecting')} variant="ghost">
+                           Volver a elegir
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
 
-    if (!secretCharacter) {
+    if (gameState === 'playing' && !secretCharacter) {
         return (
             <div className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center h-screen">
                 <p>Cargando juego...</p>
@@ -120,7 +187,7 @@ export default function WhoIsWhoGame() {
                         <HelpCircle className="h-8 w-8" />
                         Tu personaje secreto es...
                     </h1>
-                    <p className="text-3xl sm:text-4xl font-black text-primary animate-pulse">{secretCharacter.name}</p>
+                    <p className="text-3xl sm:text-4xl font-black text-primary animate-pulse">{secretCharacter?.name}</p>
                 </div>
             </div>
             
@@ -135,12 +202,12 @@ export default function WhoIsWhoGame() {
                 ))}
             </div>
 
-            <div className="mt-6 flex flex-col sm:flex-row gap-4">
+            <div className="mt-6 flex flex-wrap justify-center gap-4">
                 <Button onClick={resetGame} className="text-lg" size="lg">
                     <RefreshCcw className="mr-2 h-5 w-5" />
-                    Reiniciar Juego
+                    Nuevo Personaje Secreto
                 </Button>
-                 <Button onClick={() => setGameState('selecting')} className="text-lg" size="lg" variant="secondary">
+                 <Button onClick={() => { router.replace('/who-is-who'); setGameState('selecting'); }} className="text-lg" size="lg" variant="secondary">
                     <Users className="mr-2 h-5 w-5" />
                     Cambiar Categoría
                 </Button>
