@@ -53,7 +53,7 @@ export default function WhoIsWhoGame() {
     
     const [gameState, setGameState] = useState<'selecting' | 'sharing' | 'playing'>('selecting');
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-    const [boardSize, setBoardSize] = useState<number>(8);
+    const [characterCount, setCharacterCount] = useState<number>(25);
     const [boardCharacters, setBoardCharacters] = useState<KnownPerson[]>([]);
     const [secretCharacter, setSecretCharacter] = useState<KnownPerson | null>(null);
     const [flippedStates, setFlippedStates] = useState<{[key: string]: boolean}>({});
@@ -61,12 +61,12 @@ export default function WhoIsWhoGame() {
 
     useEffect(() => {
         const boardParam = searchParams.get('board');
-        const sizeParam = searchParams.get('size');
+        const countParam = searchParams.get('count');
         
-        if (boardParam && sizeParam) {
+        if (boardParam && countParam) {
             try {
                 const characterNames = JSON.parse(atob(boardParam));
-                const size = parseInt(sizeParam, 10);
+                const count = parseInt(countParam, 10);
                 const allChars = compatibleCategories.flatMap(getCharactersForCategory);
                 const uniqueChars = getUniqueCharacters(allChars);
                 
@@ -76,7 +76,7 @@ export default function WhoIsWhoGame() {
 
                 if (board.length > 0) {
                     setBoardCharacters(board);
-                    setBoardSize(size);
+                    setCharacterCount(count);
                     const secret = board[Math.floor(Math.random() * board.length)];
                     setSecretCharacter(secret);
                     setFlippedStates(board.reduce((acc, char) => ({ ...acc, [char.name]: false }), {}));
@@ -94,20 +94,19 @@ export default function WhoIsWhoGame() {
     const handleCategorySelect = (category: Category) => {
         setSelectedCategory(category);
         const characters = getUniqueCharacters(getCharactersForCategory(category));
-        const totalChars = boardSize * boardSize;
 
-        if (characters.length < totalChars) {
-            toast.warning(`La categoría "${category}" no tiene suficientes personajes (${characters.length}) para un tablero de ${boardSize}x${boardSize}. Se usarán todos los disponibles.`);
+        if (characters.length < characterCount) {
+            toast.warning(`La categoría "${category}" no tiene suficientes personajes (${characters.length}) para la selección de ${characterCount}. Se usarán todos los disponibles.`);
         }
 
-        const newBoardChars = shuffleArray(characters).slice(0, totalChars);
+        const newBoardChars = shuffleArray(characters).slice(0, characterCount);
         
         const characterNames = newBoardChars.map(c => c.name);
         const encodedBoard = btoa(JSON.stringify(characterNames));
         
         const url = new URL(window.location.href);
         url.searchParams.set('board', encodedBoard);
-        url.searchParams.set('size', String(boardSize));
+        url.searchParams.set('count', String(characterCount));
         
         setShareUrl(url.toString());
         setGameState('sharing');
@@ -138,20 +137,20 @@ export default function WhoIsWhoGame() {
                 <Card className="w-full max-w-md">
                     <CardHeader>
                         <CardTitle className="text-2xl font-bold text-center">Elige una Categoría</CardTitle>
-                        <CardDescription className="text-center">Elige una categoría y el tamaño del tablero para generar una partida y compartirla.</CardDescription>
+                        <CardDescription className="text-center">Elige la cantidad de personajes y una categoría para generar una partida.</CardDescription>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 gap-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Tamaño del tablero</label>
-                            <Select value={String(boardSize)} onValueChange={(val) => setBoardSize(Number(val))}>
+                            <label className="text-sm font-medium">Cantidad de Personajes</label>
+                            <Select value={String(characterCount)} onValueChange={(val) => setCharacterCount(Number(val))}>
                                 <SelectTrigger>
                                     <Grid3x3 className="mr-2 h-5 w-5" />
-                                    <SelectValue placeholder="Selecciona tamaño" />
+                                    <SelectValue placeholder="Selecciona cantidad" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="5">5x5 (25 personajes)</SelectItem>
-                                    <SelectItem value="6">6x6 (36 personajes)</SelectItem>
-                                    <SelectItem value="8">8x8 (64 personajes)</SelectItem>
+                                    <SelectItem value="25">25 personajes</SelectItem>
+                                    <SelectItem value="36">36 personajes</SelectItem>
+                                    <SelectItem value="64">64 personajes</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -217,12 +216,6 @@ export default function WhoIsWhoGame() {
         );
     }
     
-    const gridCols: { [key: number]: string } = {
-        5: 'grid-cols-5',
-        6: 'grid-cols-6',
-        8: 'grid-cols-8',
-    };
-
     return (
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center p-2 sm:p-4">
              <div className="w-full flex flex-col sm:flex-row justify-between items-center my-4 p-4 rounded-lg bg-primary/10 shadow-md gap-4">
@@ -235,10 +228,7 @@ export default function WhoIsWhoGame() {
                 </div>
             </div>
             
-            <div className={cn(
-                "w-full grid gap-2 p-2",
-                gridCols[boardSize] || 'grid-cols-8' // Fallback a 8 columnas
-            )}>
+            <div className="w-full grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 p-2">
                 {boardCharacters.map((char) => (
                     <CharacterCard 
                         key={char.name}
@@ -258,3 +248,5 @@ export default function WhoIsWhoGame() {
         </div>
     );
 }
+
+    
