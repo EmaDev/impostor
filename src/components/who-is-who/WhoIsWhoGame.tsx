@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { categories, type KnownPerson, type Category } from '@/lib/game-data';
 import CharacterCard from './CharacterCard';
 import { Button } from '@/components/ui/button';
-import { RefreshCcw, HelpCircle, Home, Users, Share2, ClipboardCopy } from 'lucide-react';
+import { HelpCircle, Home, Share2, ClipboardCopy } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
 
@@ -106,14 +106,6 @@ export default function WhoIsWhoGame() {
         setFlippedStates(prev => ({ ...prev, [name]: !prev[name] }));
     };
 
-    const resetGame = () => {
-        if (boardCharacters.length > 0) {
-             const secret = boardCharacters[Math.floor(Math.random() * boardCharacters.length)];
-            setSecretCharacter(secret);
-            setFlippedStates(boardCharacters.reduce((acc, char) => ({...acc, [char.name]: false }), {}));
-        }
-    };
-  
     if (gameState === 'selecting') {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -203,10 +195,6 @@ export default function WhoIsWhoGame() {
             </div>
 
             <div className="mt-6 flex flex-wrap justify-center gap-4">
-                <Button onClick={resetGame} className="text-lg" size="lg">
-                    <RefreshCcw className="mr-2 h-5 w-5" />
-                    Nuevo Personaje Secreto
-                </Button>
                  <Button onClick={() => router.push('/')} className="text-lg" size="lg" variant="outline">
                     <Home className="mr-2 h-5 w-5" />
                     Volver al Inicio
