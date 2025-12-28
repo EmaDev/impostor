@@ -5,11 +5,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { categories, type KnownPerson, type Category } from '@/lib/game-data';
 import CharacterCard from './CharacterCard';
 import { Button } from '@/components/ui/button';
-import { HelpCircle, Home, Share2, ClipboardCopy } from 'lucide-react';
+import { HelpCircle, Home, Share2, ClipboardCopy, Grid3x3 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 
-const BOARD_SIZE = 40;
 
 const compatibleCategories: Category[] = [
     "Conocidos de Lucia",
@@ -52,6 +53,7 @@ export default function WhoIsWhoGame() {
     
     const [gameState, setGameState] = useState<'selecting' | 'sharing' | 'playing'>('selecting');
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+    const [boardSize, setBoardSize] = useState<number>(8);
     const [boardCharacters, setBoardCharacters] = useState<KnownPerson[]>([]);
     const [secretCharacter, setSecretCharacter] = useState<KnownPerson | null>(null);
     const [flippedStates, setFlippedStates] = useState<{[key: string]: boolean}>({});
@@ -59,9 +61,12 @@ export default function WhoIsWhoGame() {
 
     useEffect(() => {
         const boardParam = searchParams.get('board');
-        if (boardParam) {
+        const sizeParam = searchParams.get('size');
+        
+        if (boardParam && sizeParam) {
             try {
                 const characterNames = JSON.parse(atob(boardParam));
+                const size = parseInt(sizeParam, 10);
                 const allChars = compatibleCategories.flatMap(getCharactersForCategory);
                 const uniqueChars = getUniqueCharacters(allChars);
                 
@@ -71,6 +76,7 @@ export default function WhoIsWhoGame() {
 
                 if (board.length > 0) {
                     setBoardCharacters(board);
+                    setBoardSize(size);
                     const secret = board[Math.floor(Math.random() * board.length)];
                     setSecretCharacter(secret);
                     setFlippedStates(board.reduce((acc, char) => ({ ...acc, [char.name]: false }), {}));
@@ -88,13 +94,20 @@ export default function WhoIsWhoGame() {
     const handleCategorySelect = (category: Category) => {
         setSelectedCategory(category);
         const characters = getUniqueCharacters(getCharactersForCategory(category));
-        const newBoardChars = shuffleArray(characters).slice(0, BOARD_SIZE);
+        const totalChars = boardSize * boardSize;
+
+        if (characters.length < totalChars) {
+            toast.warning(`La categoría "${category}" no tiene suficientes personajes (${characters.length}) para un tablero de ${boardSize}x${boardSize}. Se usarán todos los disponibles.`);
+        }
+
+        const newBoardChars = shuffleArray(characters).slice(0, totalChars);
         
         const characterNames = newBoardChars.map(c => c.name);
         const encodedBoard = btoa(JSON.stringify(characterNames));
         
         const url = new URL(window.location.href);
         url.searchParams.set('board', encodedBoard);
+        url.searchParams.set('size', String(boardSize));
         
         setShareUrl(url.toString());
         setGameState('sharing');
@@ -125,15 +138,31 @@ export default function WhoIsWhoGame() {
                 <Card className="w-full max-w-md">
                     <CardHeader>
                         <CardTitle className="text-2xl font-bold text-center">Elige una Categoría</CardTitle>
-                        <CardDescription className="text-center">Elige una categoría para generar un tablero y compartirlo.</CardDescription>
+                        <CardDescription className="text-center">Elige una categoría y el tamaño del tablero para generar una partida y compartirla.</CardDescription>
                     </CardHeader>
-                    <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {compatibleCategories.map(cat => (
-                            <Button key={cat} size="lg" variant="secondary" onClick={() => handleCategorySelect(cat)}>
-                                <Share2 className="mr-2 h-5 w-5" />
-                                {cat}
-                            </Button>
-                        ))}
+                    <CardContent className="grid grid-cols-1 gap-4">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Tamaño del tablero</label>
+                            <Select value={String(boardSize)} onValueChange={(val) => setBoardSize(Number(val))}>
+                                <SelectTrigger>
+                                    <Grid3x3 className="mr-2 h-5 w-5" />
+                                    <SelectValue placeholder="Selecciona tamaño" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="5">5x5 (25 personajes)</SelectItem>
+                                    <SelectItem value="6">6x6 (36 personajes)</SelectItem>
+                                    <SelectItem value="8">8x8 (64 personajes)</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {compatibleCategories.map(cat => (
+                                <Button key={cat} size="lg" variant="secondary" onClick={() => handleCategorySelect(cat)}>
+                                    <Share2 className="mr-2 h-5 w-5" />
+                                    {cat}
+                                </Button>
+                            ))}
+                        </div>
                     </CardContent>
                 </Card>
                  <Button onClick={() => router.push('/')} className="mt-6" size="lg" variant="outline">
@@ -187,6 +216,12 @@ export default function WhoIsWhoGame() {
             </div>
         );
     }
+    
+    const gridCols: { [key: number]: string } = {
+        5: 'grid-cols-5',
+        6: 'grid-cols-6',
+        8: 'grid-cols-8',
+    };
 
     return (
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center p-2 sm:p-4">
@@ -200,7 +235,10 @@ export default function WhoIsWhoGame() {
                 </div>
             </div>
             
-            <div className="w-full grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2 p-2">
+            <div className={cn(
+                "w-full grid gap-2 p-2",
+                gridCols[boardSize] || 'grid-cols-8' // Fallback a 8 columnas
+            )}>
                 {boardCharacters.map((char) => (
                     <CharacterCard 
                         key={char.name}
