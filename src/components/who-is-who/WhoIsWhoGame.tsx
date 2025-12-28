@@ -207,10 +207,6 @@ export default function WhoIsWhoGame() {
                     <RefreshCcw className="mr-2 h-5 w-5" />
                     Nuevo Personaje Secreto
                 </Button>
-                 <Button onClick={() => { router.replace('/who-is-who'); setGameState('selecting'); }} className="text-lg" size="lg" variant="secondary">
-                    <Users className="mr-2 h-5 w-5" />
-                    Cambiar Categoría
-                </Button>
                  <Button onClick={() => router.push('/')} className="text-lg" size="lg" variant="outline">
                     <Home className="mr-2 h-5 w-5" />
                     Volver al Inicio
