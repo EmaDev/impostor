@@ -21,7 +21,7 @@ const compatibleCategories: Category[] = [
 const getCharactersForCategory = (category: Category): KnownPerson[] => {
     const categoryData = categories[category];
     return (categoryData as any[]).map(item => 
-        typeof item === 'string' ? { name: item } : item
+        typeof item === 'string' ? { name: item } : { ...item, avatar: item.avatar || undefined }
     );
 };
 
@@ -38,6 +38,13 @@ const getUniqueCharacters = (people: KnownPerson[]): KnownPerson[] => {
 const shuffleArray = (array: any[]) => {
   return [...array].sort(() => Math.random() - 0.5);
 };
+
+const WhatsAppIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+    </svg>
+);
+
 
 export default function WhoIsWhoGame() {
     const router = useRouter();
@@ -98,6 +105,12 @@ export default function WhoIsWhoGame() {
         toast.success('¡Enlace copiado! Compártelo con otro jugador.');
     };
 
+    const shareOnWhatsApp = () => {
+        const message = encodeURIComponent(`¡Juguemos Adivina Quién! Aquí está el tablero: ${shareUrl}`);
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
+        window.open(whatsappUrl, '_blank');
+    };
+
     const startGameFromUrl = () => {
         router.push(shareUrl);
     };
@@ -137,7 +150,7 @@ export default function WhoIsWhoGame() {
                 <Card className="w-full max-w-md text-center">
                     <CardHeader>
                         <CardTitle className="text-2xl font-bold">¡Listo para compartir!</CardTitle>
-                        <CardDescription>Copia este enlace y envíalo a otro jugador. Luego, presiona "Empezar Juego" para jugar con el mismo tablero.</CardDescription>
+                        <CardDescription>Copia este enlace o compártelo por WhatsApp. Luego, presiona "Empezar Juego" para usar el mismo tablero.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                        <div className="flex gap-2">
@@ -151,6 +164,10 @@ export default function WhoIsWhoGame() {
                             <ClipboardCopy className="h-5 w-5"/>
                          </Button>
                        </div>
+                       <Button onClick={shareOnWhatsApp} size="lg" className="w-full bg-green-500 hover:bg-green-600 text-white">
+                           <WhatsAppIcon />
+                           Compartir en WhatsApp
+                       </Button>
                        <Button onClick={startGameFromUrl} size="lg" className="w-full">
                            Empezar Juego
                        </Button>
